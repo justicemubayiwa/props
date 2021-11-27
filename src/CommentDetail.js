@@ -1,7 +1,7 @@
 import React from 'react'
 import faker from 'faker'
 
-function CommentDetail() {
+function CommentDetail({author}) {
     return (
         <div className="comment">
             <a className="avatar" href="/">
@@ -9,7 +9,7 @@ function CommentDetail() {
             </a>
             <div className="content">
                 <a className="author" href ="/">
-                    Sam
+                    {author}
                 </a>
             <div className="metadata">
                 <span className="date">
