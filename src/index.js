@@ -1,15 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CommentDetail from './CommentDetail'
 
-function App() {
-  return (
-    <div className="ui container comments">
-      <CommentDetail author="Sam" timeAgo="Today @ 4:45PM" text="Nice Post" image="{faker.image.avatar()}" />
-      <CommentDetail author="Alex" timeAgo="Today @ 2:40AM" text="Second" image="{faker.image.avatar()}" />
-      <CommentDetail author="James" timeAgo="Yesterday @ 8:52PM" text="Another comment" image="{faker.image.avatar()}" />
-    </div>
-  )
+class App extends React.Component {
+
+    state = {lat: null, errorMessage:''}
+
+    componentDidMount(){
+        window.navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({lat: position.coords.latitude})
+            },
+            (err) => this.setState({errorMessage: err.message })
+    )
+    }
+
+    render() {
+    
+        if (this.state.errorMessage && !this.state.lat){
+            return <div>Error: {this.state.errorMessage}</div>
+        }
+
+        if (!this.state.errorMessage && this.state.lat){
+            return <div>Latitude: {this.state.lat}</div>
+        }
+
+        return <div>Loading!</div>
+    }
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render (
+    <App/>,document.querySelector('#root')
+)
